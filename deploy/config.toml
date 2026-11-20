@@ -1,0 +1,16 @@
+moniker = "<MONIKER>"
+
+[rpc]
+laddr = "tcp://127.0.0.1:<RPC_PORT>"
+pprof_laddr = ""
+
+[p2p]
+laddr = "tcp://<P2P_BIND>:<P2P_PORT>"
+persistent_peers = "<PERSISTENT_PEERS>"
+seeds = ""
+pex = false
+addr_book_strict = true
+allow_duplicate_ip = false
+
+[instrumentation]
+prometheus = false

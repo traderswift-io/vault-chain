@@ -1,0 +1,25 @@
+[Unit]
+Description=Vault metadata chain
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vault-chain
+Group=vault-chain
+StateDirectory=vault-chain
+WorkingDirectory=/var/lib/vault-chain
+ExecStart=/usr/local/bin/vaultd start --home /var/lib/vault-chain --p2p.laddr tcp://<P2P_BIND>:<P2P_PORT>
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=60
+KillSignal=SIGTERM
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/vault-chain
+
+[Install]
+WantedBy=multi-user.target

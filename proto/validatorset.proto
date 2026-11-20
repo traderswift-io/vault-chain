@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package traderswift.validatorset.v1;
+
+import "cosmos/msg/v1/msg.proto";
+
+option go_package = "vault-chain/validatorset";
+
+message Validator {
+  string consensus_public_key = 1;
+  int64 power = 2;
+  string moniker = 3;
+  bool founding = 4;
+  bool vacant = 5;
+}
+
+message GenesisState {
+  string admin = 1;
+  repeated Validator validators = 2;
+  string pending_admin = 3;
+}
+
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  rpc AddValidator(MsgAddValidator) returns (MsgAddValidatorResponse);
+  rpc SetValidatorPower(MsgSetValidatorPower) returns (MsgSetValidatorPowerResponse);
+  rpc RemoveValidator(MsgRemoveValidator) returns (MsgRemoveValidatorResponse);
+  rpc SetAdmin(MsgSetAdmin) returns (MsgSetAdminResponse);
+  rpc AcceptAdmin(MsgAcceptAdmin) returns (MsgAcceptAdminResponse);
+}
+
+message MsgAddValidator {
+  option (cosmos.msg.v1.signer) = "admin";
+  string admin = 1;
+  string consensus_public_key = 2;
+  int64 power = 3;
+  string moniker = 4;
+  bool founding = 5;
+}
+message MsgAddValidatorResponse {}
+
+message MsgSetValidatorPower {
+  option (cosmos.msg.v1.signer) = "admin";
+  string admin = 1;
+  string consensus_public_key = 2;
+  int64 power = 3;
+}
+message MsgSetValidatorPowerResponse {}
+
+message MsgRemoveValidator {
+  option (cosmos.msg.v1.signer) = "admin";
+  string admin = 1;
+  string consensus_public_key = 2;
+}
+message MsgRemoveValidatorResponse {}
+
+service Query {
+  rpc Admin(QueryAdminRequest) returns (QueryAdminResponse);
+  rpc Validators(QueryValidatorsRequest) returns (QueryValidatorsResponse);
+  rpc Validator(QueryValidatorRequest) returns (QueryValidatorResponse);
+}
+
+message QueryAdminRequest {}
+message QueryAdminResponse {
+  string admin = 1;
+}
+
+message QueryValidatorsRequest {}
+message QueryValidatorsResponse {
+  repeated Validator validators = 1;
+  int64 total_power = 2;
+}
+
+message QueryValidatorRequest {
+  string consensus_public_key = 1;
+}
+message QueryValidatorResponse {
+  Validator validator = 1;
+}
+
+message MsgSetAdmin {
+  option (cosmos.msg.v1.signer) = "admin";
+  string admin = 1;
+  string new_admin = 2;
+}
+message MsgSetAdminResponse {}
+
+message MsgAcceptAdmin {
+  option (cosmos.msg.v1.signer) = "new_admin";
+  string new_admin = 1;
+}
+message MsgAcceptAdminResponse {}

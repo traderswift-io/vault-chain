@@ -1,0 +1,15 @@
+minimum-gas-prices = "0nofee"
+pruning = "custom"
+pruning-keep-recent = "100000"
+pruning-interval = "10"
+
+[api]
+enable = false
+address = "tcp://127.0.0.1:<API_PORT>"
+
+[grpc]
+enable = true
+address = "127.0.0.1:<GRPC_PORT>"
+
+[telemetry]
+enabled = false

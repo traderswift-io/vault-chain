@@ -1,0 +1,130 @@
+syntax = "proto3";
+package traderswift.vault.v1;
+import "cosmos/msg/v1/msg.proto";
+option go_package = "vault-chain/vault";
+
+message Location {
+  string name = 1;
+  string pointer = 2;
+}
+message MsgLinkAccount {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string owner = 2;
+  string hub_account = 3;
+  bytes hub_public_key = 4;
+  bytes hub_signature = 5;
+  uint64 nonce = 6;
+}
+message MsgLinkAccountResponse {}
+message MsgSetStorageChoice {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string owner = 2;
+  repeated Location locations = 3;
+}
+message MsgSetStorageChoiceResponse {}
+message MsgCommitRoot {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string owner = 2;
+  string day = 3;
+  bytes root = 4;
+}
+message MsgCommitRootResponse {}
+message MsgGrant {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string owner = 2;
+  bytes grantee_commitment = 3;
+  string scope = 4;
+  uint64 expiry = 5;
+}
+message MsgGrantResponse {}
+message MsgRevoke {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string owner = 2;
+  bytes grantee_commitment = 3;
+  string scope = 4;
+}
+message MsgRevokeResponse {}
+message MsgRegisterFrontend {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string provider_id = 2;
+  bytes service_pubkey = 3;
+  string endpoint = 4;
+  bytes service_signature = 5;
+  string service_signer = 6;
+}
+message MsgRegisterFrontendResponse {}
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  bool base_enabled = 2;
+  bool traderswift_enabled = 3;
+}
+message MsgUpdateParamsResponse {}
+message MsgRemoveFrontend {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string provider_id = 2;
+}
+message MsgRemoveFrontendResponse {}
+message MsgActivateProvider {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string provider_id = 2;
+  bytes consensus_pubkey = 3;
+  bytes consensus_signature = 4;
+}
+message MsgActivateProviderResponse {}
+message QueryWhereRequest {
+  string owner = 1;
+}
+message QueryWhereResponse {
+  bytes canonical_record = 1;
+  uint64 height = 2;
+}
+message QueryMayReadRequest {
+  string owner = 1;
+  string grantee = 2;
+  bytes salt = 3;
+  string scope = 4;
+}
+message QueryMayReadResponse {
+  bool allowed = 1;
+  uint64 height = 2;
+}
+message MsgRemoveProvider {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string provider_id = 2;
+}
+message MsgRemoveProviderResponse {}
+message MsgReplaceProviderOwner {
+  option (cosmos.msg.v1.signer) = "signer";
+  string signer = 1;
+  string provider_id = 2;
+  string new_owner = 3;
+}
+message MsgReplaceProviderOwnerResponse {}
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  rpc LinkAccount(MsgLinkAccount) returns (MsgLinkAccountResponse);
+  rpc SetStorageChoice(MsgSetStorageChoice) returns (MsgSetStorageChoiceResponse);
+  rpc CommitRoot(MsgCommitRoot) returns (MsgCommitRootResponse);
+  rpc Grant(MsgGrant) returns (MsgGrantResponse);
+  rpc Revoke(MsgRevoke) returns (MsgRevokeResponse);
+  rpc RegisterFrontend(MsgRegisterFrontend) returns (MsgRegisterFrontendResponse);
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc RemoveFrontend(MsgRemoveFrontend) returns (MsgRemoveFrontendResponse);
+  rpc ActivateProvider(MsgActivateProvider) returns (MsgActivateProviderResponse);
+  rpc RemoveProvider(MsgRemoveProvider) returns (MsgRemoveProviderResponse);
+  rpc ReplaceProviderOwner(MsgReplaceProviderOwner) returns (MsgReplaceProviderOwnerResponse);
+}
+service Query {
+  rpc Where(QueryWhereRequest) returns (QueryWhereResponse);
+  rpc MayRead(QueryMayReadRequest) returns (QueryMayReadResponse);
+}
