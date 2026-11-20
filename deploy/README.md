@@ -143,6 +143,8 @@ vacant slot is refilled.
 
 ## vault-1 founders (launched 19 Nov 2026, v1.1.0 at a2daf91)
 
+a2daf91 is the source commit the running binaries were built from. It is not in this repository's history; the code in this repository's first commit is identical to it.
+
 Archive SHA256 8bf3d0112de7dc7bcbc8ecaf6003ded0fe888528d141870d25fd75a05b18489d.
 Genesis SHA256 f32680f566960d6d7a0a79aa4de2363d373e0d733fd3eb2659ae17df70395a19.
 Four founders at power 100 each. Each owner key was generated on its own host;
